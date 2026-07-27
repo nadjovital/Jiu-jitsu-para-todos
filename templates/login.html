@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block title %}Login - Jiu-Jitsu Todo{% endblock %}
+{% block content %}
+<div class="row justify-content-center mt-5">
+    <div class="col-md-5">
+        <div class="card">
+            <div class="card-header text-center py-3">
+                <h4 class="mb-0"><i class="bi bi-lock-fill me-2"></i>Entrar no Sistema</h4>
+            </div>
+            <div class="card-body p-4">
+                <form method="POST">
+                    <div class="mb-3">
+                        <label for="cpf" class="form-label">CPF</label>
+                        <input type="text" class="form-control form-control-lg" id="cpf" name="cpf" placeholder="000.000.000-00" required autofocus>
+                    </div>
+                    <div class="mb-4">
+                        <label for="senha" class="form-label">Senha</label>
+                        <input type="password" class="form-control form-control-lg" id="senha" name="senha" required>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-accent btn-lg"><i class="bi bi-box-arrow-in-right me-2"></i>Entrar</button>
+                    </div>
+                </form>
+                <div class="mt-4 p-3 bg-light rounded small">
+                    <strong>Conta de teste (Diretor):</strong><br>
+                    CPF: <code>000.000.000-00</code><br>
+                    Senha: <code>diretor123</code>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
