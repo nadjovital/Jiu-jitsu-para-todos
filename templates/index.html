@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block title %}Jiu-Jitsu Todo - Início{% endblock %}
+{% block content %}
+<div class="row justify-content-center mt-5">
+    <div class="col-md-8 text-center">
+        <div class="card p-5">
+            <h1 class="display-5 fw-bold mb-3"><i class="bi bi-award-fill text-danger"></i> Jiu-Jitsu Todo</h1>
+            <p class="lead text-muted mb-4">Sistema de gestão de academia e graduações de Jiu-Jitsu</p>
+            <a href="{{ url_for('login') }}" class="btn btn-accent btn-lg px-5"><i class="bi bi-box-arrow-in-right me-2"></i>Entrar no Sistema</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
