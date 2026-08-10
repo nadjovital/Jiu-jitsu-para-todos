@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Professores - Jiu-Jitsu Todo{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2><i class="bi bi-person-badge me-2"></i>Professores do Dojo</h2>
+    <a href="{{ url_for('novo_professor') }}" class="btn btn-accent">
+        <i class="bi bi-person-plus me-1"></i>Novo Professor
+    </a>
+</div>
+
+<div class="card">
+    <div class="table-responsive">
+        <table class="table table-hover mb-0 align-middle">
+            <thead class="table-light">
+                <tr>
+                    <th>Nome</th>
+                    <th>CPF</th>
+                    <th>Faixa</th>
+                    <th>E-mail</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in professores %}
+                <tr>
+                    <td><strong>{{ p.nome }}</strong></td>
+                    <td>{{ p.cpf }}</td>
+                    <td><span class="badge bg-dark">{{ p.faixa_completa() }}</span></td>
+                    <td>{{ p.email }}</td>
+                    <td>
+                        <a href="{{ url_for('editar_usuario', id=p.id) }}" class="btn btn-sm btn-outline-secondary">Editar</a>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="5" class="text-center text-muted py-4">Nenhum professor cadastrado.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
