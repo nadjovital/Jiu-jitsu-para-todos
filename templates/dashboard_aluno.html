@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block title %}Meu Perfil - Jiu-Jitsu Todo{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card mb-4">
+            <div class="card-header text-center py-3">
+                <h3 class="mb-0">{{ user.nome }}</h3>
+            </div>
+            <div class="card-body text-center">
+                <div class="display-6 mb-3">
+                    <span class="badge bg-dark fs-4 px-4 py-2">{{ user.faixa_completa() }}</span>
+                </div>
+                <p class="text-muted">
+                    {% if user.data_ultima_graduacao %}
+                    Última graduação: <strong>{{ user.data_ultima_graduacao.strftime('%d/%m/%Y') }}</strong>
+                    {% else %}
+                    Ainda não graduado
+                    {% endif %}
+                </p>
+                <hr>
+                <div class="row text-start">
+                    <div class="col-6">
+                        <p><strong>CPF:</strong> {{ user.cpf }}</p>
+                        <p><strong>E-mail:</strong> {{ user.email }}</p>
+                    </div>
+                    <div class="col-6">
+                        <p><strong>Telefone:</strong> {{ user.telefone or '—' }}</p>
+                        <p><strong>Cadastro:</strong> {{ user.data_cadastro.strftime('%d/%m/%Y') }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header">Histórico de Graduações</div>
+            <ul class="list-group list-group-flush">
+                {% for h in historico %}
+                <li class="list-group-item">
+                    <div class="d-flex justify-content-between">
+                        <div>
+                            {% if h.faixa_anterior %}
+                            <span class="text-muted">{{ h.faixa_anterior }}{% if h.graus_anterior %} ({{ h.graus_anterior }}º){% endif %}</span>
+                            <i class="bi bi-arrow-right mx-2"></i>
+                            {% endif %}
+                            <strong>{{ h.faixa_nova }}{% if h.graus_novo %} ({{ h.graus_novo }}º grau){% endif %}</strong>
+                            {% if h.observacao %}<br><small class="text-muted">{{ h.observacao }}</small>{% endif %}
+                        </div>
+                        <small class="text-muted">{{ h.data_graduacao.strftime('%d/%m/%Y') }}</small>
+                    </div>
+                </li>
+                {% else %}
+                <li class="list-group-item text-muted">Nenhuma graduação registrada ainda.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
