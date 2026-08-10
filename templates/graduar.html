@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Graduar {{ aluno.nome }} - Jiu-Jitsu Todo{% endblock %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-7">
+        <div class="card">
+            <div class="card-header">
+                <i class="bi bi-award me-2"></i>Graduar Aluno
+            </div>
+            <div class="card-body">
+                <div class="alert alert-info">
+                    <strong>{{ aluno.nome }}</strong><br>
+                    Faixa atual: <strong>{{ aluno.faixa_completa() }}</strong>
+                    {% if aluno.data_ultima_graduacao %}
+                    <br>Última graduação: {{ aluno.data_ultima_graduacao.strftime('%d/%m/%Y') }}
+                    {% endif %}
+                </div>
+
+                <form method="POST">
+                    <div class="mb-3">
+                        <label class="form-label">Nova Faixa *</label>
+                        <select name="nova_faixa" class="form-select form-select-lg" required>
+                            {% for f in faixas %}
+                            <option value="{{ f }}" {% if f == aluno.faixa %}selected{% endif %}>{{ f }}</option>
+                            {% endfor %}
+                        </select>
+                        <div class="form-text">Siga a ordem oficial da CBJJ / IBJJF.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Graus / Listras (0 a 6)</label>
+                        <input type="number" name="novos_graus" class="form-control" min="0" max="6" value="{{ aluno.graus }}">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Data da Graduação</label>
+                        <input type="date" name="data_graduacao" class="form-control" value="">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Observação (opcional)</label>
+                        <textarea name="observacao" class="form-control" rows="2" placeholder="Ex: Promoção por tempo e técnica"></textarea>
+                    </div>
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-accent btn-lg">
+                            <i class="bi bi-check-circle me-1"></i>Confirmar Graduação
+                        </button>
+                        <a href="{{ url_for('ver_aluno', id=aluno.id) }}" class="btn btn-outline-secondary btn-lg">Cancelar</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
