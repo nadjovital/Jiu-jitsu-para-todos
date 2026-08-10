@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% block title %}{{ aluno.nome }} - Jiu-Jitsu Todo{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>{{ aluno.nome }}</h2>
+    <div>
+        {% if user.is_diretor() or user.is_professor() %}
+        <a href="{{ url_for('graduar', id=aluno.id) }}" class="btn btn-accent">
+            <i class="bi bi-award me-1"></i>Graduar
+        </a>
+        {% endif %}
+        {% if user.is_diretor() %}
+        <a href="{{ url_for('editar_usuario', id=aluno.id) }}" class="btn btn-outline-secondary">
+            <i class="bi bi-pencil me-1"></i>Editar
+        </a>
+        {% endif %}
+    </div>
+</div>
+
+<div class="row g-4">
+    <div class="col-md-5">
+        <div class="card">
+            <div class="card-header">Informações</div>
+            <div class="card-body">
+                <p><strong>Faixa atual:</strong><br>
+                    <span class="badge bg-dark fs-5">{{ aluno.faixa_completa() }}</span>
+                </p>
+                <p><strong>CPF:</strong> {{ aluno.cpf }}</p>
+                <p><strong>E-mail:</strong> {{ aluno.email }}</p>
+                <p><strong>Telefone:</strong> {{ aluno.telefone or '—' }}</p>
+                <p><strong>Nascimento:</strong> {{ aluno.data_nascimento.strftime('%d/%m/%Y') if aluno.data_nascimento else '—' }}</p>
+                <p><strong>Idade:</strong> {{ aluno.idade() or '—' }}</p>
+                <p><strong>Cadastrado em:</strong> {{ aluno.data_cadastro.strftime('%d/%m/%Y') }}</p>
+                <p><strong>Última graduação:</strong> {{ aluno.data_ultima_graduacao.strftime('%d/%m/%Y') if aluno.data_ultima_graduacao else '—' }}</p>
+                {% if aluno.observacoes %}
+                <p><strong>Observações:</strong><br>{{ aluno.observacoes }}</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-7">
+        <div class="card">
+            <div class="card-header">Histórico de Graduações</div>
+            <ul class="list-group list-group-flush">
+                {% for h in historico %}
+                <li class="list-group-item">
+                    <div class="d-flex justify-content-between align-items-start">
+                        <div>
+                            {% if h.faixa_anterior %}
+                            <span class="text-muted">{{ h.faixa_anterior }}{% if h.graus_anterior %} ({{ h.graus_anterior }}º){% endif %}</span>
+                            → 
+                            {% endif %}
+                            <strong>{{ h.faixa_nova }}{% if h.graus_novo %} ({{ h.graus_novo }}º grau){% endif %}</strong>
+                            {% if h.observacao %}<br><small class="text-muted">{{ h.observacao }}</small>{% endif %}
+                            {% if h.professor %}<br><small class="text-muted">Por: {{ h.professor.nome }}</small>{% endif %}
+                        </div>
+                        <span class="badge bg-light text-dark">{{ h.data_graduacao.strftime('%d/%m/%Y') }}</span>
+                    </div>
+                </li>
+                {% else %}
+                <li class="list-group-item text-muted">Sem histórico de graduação.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}
